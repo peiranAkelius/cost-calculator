@@ -7,12 +7,11 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {ParameterFormComponent} from "./parameter-form/parameter-form.component";
-import {ValueChartComponent} from "./value-chart/value-chart.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatListModule, MatDividerModule, MatToolbarModule, MatIconModule, MatGridListModule, ParameterFormComponent, ValueChartComponent],
+  imports: [CommonModule, RouterOutlet, MatListModule, MatDividerModule, MatToolbarModule, MatIconModule, MatGridListModule, ParameterFormComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

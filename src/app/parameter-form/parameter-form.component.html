@@ -1,1 +1,242 @@
-<p>parameter-form works!</p>
+<mat-card>
+
+</mat-card>
+
+<mat-card>
+
+  <!-- user based form -->
+  <mat-card-content>
+    <form [formGroup]="costForm" (ngSubmit)="onSubmit()" class="parameter-form">
+      <!-- user count -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>user number</mat-label>
+        <input id="userCount" type="number" matInput placeholder="" formControlName="userCount">
+      </mat-form-field>
+
+      <!-- user price -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>user price</mat-label>
+        <input id="userPrice" type="number" matInput placeholder="" formControlName="pricePerUser">
+      </mat-form-field>
+
+    </form>
+  </mat-card-content>
+
+  <!-- unit number based form -->
+  <mat-card-content>
+    <form [formGroup]="costForm" (ngSubmit)="onSubmit()" class="parameter-form">
+      <!-- unit count -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>unit number</mat-label>
+        <input id="unitCount" type="number" matInput placeholder="" formControlName="unitCount">
+      </mat-form-field>
+
+      <!-- major app count -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>major app number</mat-label>
+        <input id="majorAppCount" type="number" matInput placeholder="" formControlName="majorAppCount">
+      </mat-form-field>
+
+      <!-- unit price -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>unit price (major)</mat-label>
+        <input id="majorPrice" type="number" matInput placeholder="" formControlName="pricePerUnitForMajorApp">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-content>
+    <form [formGroup]="costForm" (ngSubmit)="onSubmit()" class="parameter-form">
+      <!-- unit count -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>external service price per unit</mat-label>
+        <input id="cos" type="number" matInput placeholder="" formControlName="thirdPartyPricePerUnit">
+      </mat-form-field>
+
+      <!-- major app count -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>core app number</mat-label>
+        <input id="sin" type="number" matInput placeholder="" formControlName="coreAppCount">
+      </mat-form-field>
+
+      <!-- unit price -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>unit price (core)</mat-label>
+        <input id="ma" type="number" matInput placeholder="" formControlName="pricePerUnitForCoreApp">
+      </mat-form-field>
+
+      <!-- calculate button -->
+      <button mat-raised-button type="submit">calculate</button>
+    </form>
+  </mat-card-content>
+
+  <!-- discount rule of major app -->
+  <mat-card-content>
+    <form [formGroup]="discountForm" (ngSubmit)="onMajorAppDiscountRuleAdd()">
+        from
+        <mat-form-field appearance="fill" style="width: 8rem">
+          <input id="discountThreshold" type="number" matInput placeholder="" formControlName="discountThreshold">
+        </mat-form-field>
+        major apps, give a discount of
+        <mat-form-field appearance="fill" style="width: 8rem">
+          <input id="discountPercent" type="number" matInput placeholder="" formControlName="discountPercent">
+        </mat-form-field>
+      <button mat-raised-button type="submit" style="margin-left: 12rem">add</button>
+    </form>
+  </mat-card-content>
+
+  <!-- discount rule summary -->
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          discount rules
+        </mat-panel-title>
+        <mat-panel-description>
+          currently having {{discountRules.length ?? 0}} rules
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <p *ngFor="let rule of discountRules">
+        {{rule}}
+      </p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+
+<!-- result presentation -->
+  <div class="row">
+    <div class="col">
+      <mat-card style="margin-top: 2rem">
+        <mat-card-header>
+          <mat-card-title style="font-weight: normal">user based</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 5px"> the total price would be {{finalPriceUserBased}}</mat-card-content>
+        <mat-card-content style="margin-top: 5px"> the total discount would be 0</mat-card-content>
+        <mat-card-content style="font-weight: bold; text-align: end"> the final price: {{finalPriceUserBased}}</mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col">
+      <mat-card style="margin-top: 2rem">
+        <mat-card-header>
+          <mat-card-title style="font-weight: normal">unit based</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 5px"> the total price would be {{totalPrice}}</mat-card-content>
+        <mat-card-content style="margin-top: 5px"> the total discount would be {{discount}}</mat-card-content>
+        <mat-card-content style="font-weight: bold; text-align: end"> the final price: {{finalPrice}}</mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+<!-- history table -->
+<!--<table mat-table [dataSource]="history" matSort class="mat-elevation-z8" style="margin-top: 3rem">-->
+
+<!--  &lt;!&ndash; Unit Number Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="unitNumber">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      unit number-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.unitCount}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Major App Number &ndash;&gt;-->
+<!--  <ng-container matColumnDef="majorAppNumber">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      major app-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.majorApplicationCount}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Major App Unit Price &ndash;&gt;-->
+<!--  <ng-container matColumnDef="majorUnitPrice">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      unit price (major)-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUnitForMajorApp}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Core App Number &ndash;&gt;-->
+<!--  <ng-container matColumnDef="coreAppNumber">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      core app-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.coreApplicationCount}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Core App Unit Price &ndash;&gt;-->
+<!--  <ng-container matColumnDef="coreUnitPrice">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      unit price (core)-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUnitForCoreApp}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; External Service Unit Price&ndash;&gt;-->
+<!--  <ng-container matColumnDef="externalServicePricePerUnit">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      unit price (3rd party)-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.thirdPartyPricePerUnit}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Discount Percent &ndash;&gt;-->
+<!--  <ng-container matColumnDef="discountPercent">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      discount percent-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.discountPercent}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+
+<!--  &lt;!&ndash; Total Price &ndash;&gt;-->
+<!--  <ng-container matColumnDef="totalPrice">-->
+<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--      total price-->
+<!--    </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.costResult.totalPrice}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--</table>-->
+
+<!-- test table -->
+<!--<table mat-table [dataSource]="testData" class="mat-elevation-z8">-->
+
+<!--  &lt;!&ndash;- Note that these columns can be defined in any order.-->
+<!--        The actual rendered columns are set as a property on the row definition" &ndash;&gt;-->
+
+<!--  &lt;!&ndash; Position Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="position">-->
+<!--    <th mat-header-cell *matHeaderCellDef> No. </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.position}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Name Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="name">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Name </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Weight Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="weight">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Weight </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Symbol Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="symbol">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Symbol </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--</table>-->
+
+
