@@ -1,9 +1,5 @@
+<!-- parameter form -->
 <mat-card>
-
-</mat-card>
-
-<mat-card>
-
   <!-- user based form -->
   <mat-card-content>
     <form [formGroup]="costForm" (ngSubmit)="onSubmit()" class="parameter-form">
@@ -106,137 +102,141 @@
 </mat-card>
 
 <!-- result presentation -->
-  <div class="row">
-    <div class="col">
-      <mat-card style="margin-top: 2rem">
-        <mat-card-header>
-          <mat-card-title style="font-weight: normal">user based</mat-card-title>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <mat-card-content style="margin-top: 5px"> the total price would be {{finalPriceUserBased}}</mat-card-content>
-        <mat-card-content style="margin-top: 5px"> the total discount would be 0</mat-card-content>
-        <mat-card-content style="font-weight: bold; text-align: end"> the final price: {{finalPriceUserBased}}</mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col">
-      <mat-card style="margin-top: 2rem">
-        <mat-card-header>
-          <mat-card-title style="font-weight: normal">unit based</mat-card-title>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <mat-card-content style="margin-top: 5px"> the total price would be {{totalPrice}}</mat-card-content>
-        <mat-card-content style="margin-top: 5px"> the total discount would be {{discount}}</mat-card-content>
-        <mat-card-content style="font-weight: bold; text-align: end"> the final price: {{finalPrice}}</mat-card-content>
-      </mat-card>
-    </div>
+<div class="row">
+  <div class="col-6">
+    <mat-card style="margin-top: 2rem">
+      <mat-card-header>
+        <mat-card-title style="font-weight: normal">user based</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content style="margin-top: 5px"> the total price would be {{finalPriceUserBased}}</mat-card-content>
+      <mat-card-content style="margin-top: 5px"> the total discount would be 0</mat-card-content>
+      <mat-card-content style="font-weight: bold; text-align: end"> the final price: {{finalPriceUserBased}}</mat-card-content>
+    </mat-card>
+
+    <!-- history table for user based -->
+    <section style="overflow: auto; height: 200px; margin-top: 2rem" class="mat-elevation-z8">
+      <table mat-table [dataSource]="history" matSort>
+        <!-- User Number Column -->
+        <ng-container matColumnDef="userNumber" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            user
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.userCount}} </td>
+        </ng-container>
+
+        <!-- User Price Column -->
+        <ng-container matColumnDef="userPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            user price
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUser}} </td>
+        </ng-container>
+
+        <!-- User Discount Column -->
+        <ng-container matColumnDef="userDiscountPercent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            discount percent
+          </th>
+          <td mat-cell *matCellDef="let element"> 0 </td>
+        </ng-container>
+
+        <!-- Total Price -->
+        <ng-container matColumnDef="finalPriceUserBased" stickyEnd="true">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            total
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costResult.finalPriceUserBased}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsForUserBasedTable; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsForUserBasedTable;"></tr>
+      </table>
+    </section>
   </div>
+  <div class="col-6">
+    <mat-card style="margin-top: 2rem">
+      <mat-card-header>
+        <mat-card-title style="font-weight: normal">unit based</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content style="margin-top: 5px"> the total price would be {{totalPrice}}</mat-card-content>
+      <mat-card-content style="margin-top: 5px"> the total discount would be {{discount}}</mat-card-content>
+      <mat-card-content style="font-weight: bold; text-align: end"> the final price: {{finalPrice}}</mat-card-content>
+    </mat-card>
 
-<!-- history table -->
-<!--<table mat-table [dataSource]="history" matSort class="mat-elevation-z8" style="margin-top: 3rem">-->
+    <!-- history table for unit based -->
+    <section style="overflow: auto; height: 200px; margin-top: 2rem" class="mat-elevation-z8">
+      <table mat-table [dataSource]="history" matSort>
 
-<!--  &lt;!&ndash; Unit Number Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="unitNumber">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      unit number-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.unitCount}} </td>-->
-<!--  </ng-container>-->
+        <!-- Unit Number Column -->
+        <ng-container matColumnDef="unitNumber" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            unit
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.unitCount}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; Major App Number &ndash;&gt;-->
-<!--  <ng-container matColumnDef="majorAppNumber">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      major app-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.majorApplicationCount}} </td>-->
-<!--  </ng-container>-->
+        <!-- Major App Number -->
+        <ng-container matColumnDef="majorAppNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            major app
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.majorApplicationCount}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; Major App Unit Price &ndash;&gt;-->
-<!--  <ng-container matColumnDef="majorUnitPrice">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      unit price (major)-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUnitForMajorApp}} </td>-->
-<!--  </ng-container>-->
+        <!-- Major App Unit Price -->
+        <ng-container matColumnDef="majorUnitPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            unit price (major)
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUnitForMajorApp}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; Core App Number &ndash;&gt;-->
-<!--  <ng-container matColumnDef="coreAppNumber">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      core app-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.coreApplicationCount}} </td>-->
-<!--  </ng-container>-->
+        <!-- Core App Number -->
+        <ng-container matColumnDef="coreAppNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            core app
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.coreApplicationCount}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; Core App Unit Price &ndash;&gt;-->
-<!--  <ng-container matColumnDef="coreUnitPrice">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      unit price (core)-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUnitForCoreApp}} </td>-->
-<!--  </ng-container>-->
+        <!-- Core App Unit Price -->
+        <ng-container matColumnDef="coreUnitPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            unit price (core)
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.pricePerUnitForCoreApp}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; External Service Unit Price&ndash;&gt;-->
-<!--  <ng-container matColumnDef="externalServicePricePerUnit">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      unit price (3rd party)-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costParameter.thirdPartyPricePerUnit}} </td>-->
-<!--  </ng-container>-->
+        <!-- External Service Unit Price-->
+        <ng-container matColumnDef="externalServicePricePerUnit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            unit price (3rd party)
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costParameter.thirdPartyPricePerUnit}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; Discount Percent &ndash;&gt;-->
-<!--  <ng-container matColumnDef="discountPercent">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      discount percent-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.discountPercent}} </td>-->
-<!--  </ng-container>-->
+        <!-- Discount Percent -->
+        <ng-container matColumnDef="discountPercent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            discount percent
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.discountPercent}} </td>
+        </ng-container>
 
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+        <!-- Total Price -->
+        <ng-container matColumnDef="totalPrice" stickyEnd="true">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            total
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.costResult.totalPrice}} </td>
+        </ng-container>
 
-<!--  &lt;!&ndash; Total Price &ndash;&gt;-->
-<!--  <ng-container matColumnDef="totalPrice">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
-<!--      total price-->
-<!--    </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.costResult.totalPrice}} </td>-->
-<!--  </ng-container>-->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--</table>-->
-
-<!-- test table -->
-<!--<table mat-table [dataSource]="testData" class="mat-elevation-z8">-->
-
-<!--  &lt;!&ndash;- Note that these columns can be defined in any order.-->
-<!--        The actual rendered columns are set as a property on the row definition" &ndash;&gt;-->
-
-<!--  &lt;!&ndash; Position Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="position">-->
-<!--    <th mat-header-cell *matHeaderCellDef> No. </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.position}} </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Name Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="name">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Name </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Weight Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="weight">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Weight </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Symbol Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="symbol">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Symbol </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>-->
-<!--  </ng-container>-->
-
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--</table>-->
-
-
+    </section>
+  </div>
+</div>

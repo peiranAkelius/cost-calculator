@@ -36,7 +36,7 @@ export class ParameterFormComponent {
       unitCount: 2000,
       userCount: 5,
       majorAppCount: 3,
-      coreAppCount: '',
+      coreAppCount: 0,
       timeFactor: 1,
 
       pricePerUnitForMajorApp: 1,
@@ -66,6 +66,7 @@ export class ParameterFormComponent {
     // table
     displayedColumns: string[] = ['unitNumber', 'majorAppNumber', 'coreAppNumber',
       'majorUnitPrice', 'coreUnitPrice', 'externalServicePricePerUnit', 'discountPercent', 'totalPrice'];
+    displayedColumnsForUserBasedTable: string[] = ['userNumber', 'userPrice', 'userDiscountPercent', 'finalPriceUserBased'];
 
     constructor(
       private calculatorService: CalculatorService,
