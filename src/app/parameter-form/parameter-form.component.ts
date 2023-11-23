@@ -56,8 +56,9 @@ export class ParameterFormComponent {
     // result
     totalPrice: number = 0;
     discount: number = 0;
-    finalPrice: number = 0;
+    finalPriceUnitBased: number = 0;
     finalPriceUserBased: number = 0;
+    finalPrice: number = 0;
     panelOpenState = false;
     discountRules: string[] = [];
     history: CostHistory[] = [];
@@ -95,8 +96,9 @@ export class ParameterFormComponent {
       const costResult: CostResult = this.calculatorService.calculateCosts(costParams);
       this.totalPrice = costResult.totalPrice;
       this.discount = costResult.totalDiscount;
-      this.finalPrice = costResult.finalPrice;
+      this.finalPriceUnitBased = costResult.finalPrice;
       this.finalPriceUserBased = costResult.finalPriceUserBased;
+      this.finalPrice = this.finalPriceUserBased + this.finalPriceUnitBased;
 
       // insert into the history
       this.history.push({
