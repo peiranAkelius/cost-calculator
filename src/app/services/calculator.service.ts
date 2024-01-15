@@ -35,7 +35,7 @@ export class CalculatorService {
     return {
       totalPrice: totalPrice,
       totalDiscount: totalDiscount,
-      finalPrice: totalPrice - totalDiscount,
+      finalPriceUnitBased: totalPrice - totalDiscount,
       finalPriceUserBased: finalPriceUserBased,
     };
   }
