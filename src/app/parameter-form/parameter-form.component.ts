@@ -38,6 +38,7 @@ export class ParameterFormComponent {
       majorAppCount: 3,
       coreAppCount: 0,
       timeFactor: 1,
+      singleSetUpFee: 0,
 
       pricePerUnitForMajorApp: 1,
       pricePerUnitForCoreApp: 0.2,
@@ -79,6 +80,7 @@ export class ParameterFormComponent {
 
       // set the parameters
       let costParams: CostParameter = {
+        singleSetUpFee: this.costForm.value.singleSetUpFee,
         unitCount: this.costForm.value.unitCount,
         userCount: this.costForm.value.userCount,
         majorApplicationCount: this.costForm.value.majorAppCount,
@@ -96,9 +98,9 @@ export class ParameterFormComponent {
       const costResult: CostResult = this.calculatorService.calculateCosts(costParams);
       this.totalPrice = costResult.totalPrice;
       this.discount = costResult.totalDiscount;
-      this.finalPriceUnitBased = costResult.finalPrice;
+      this.finalPriceUnitBased = costResult.finalPriceUnitBased;
       this.finalPriceUserBased = costResult.finalPriceUserBased;
-      this.finalPrice = this.finalPriceUserBased + this.finalPriceUnitBased;
+      this.finalPrice = this.finalPriceUserBased + this.finalPriceUnitBased + this.costForm.value.singleSetUpFee;
 
       // insert into the history
       this.history.push({

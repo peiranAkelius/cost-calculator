@@ -15,6 +15,7 @@ export interface CostParameter {
   discountMapForCoreApp: Map<number, number>;
 
   // price
+  singleSetUpFee: number;
   pricePerUnitForMajorApp: number;
   pricePerUnitForCoreApp: number;
   thirdPartyPricePerUnit: number;

@@ -1,6 +1,6 @@
 export interface CostResult {
   totalPrice: number;
   totalDiscount: number;
-  finalPrice: number;
+  finalPriceUnitBased: number;
   finalPriceUserBased: number;
 }
